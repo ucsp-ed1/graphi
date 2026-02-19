@@ -58,7 +58,7 @@ def calculate_scores(submission_path: Path):
             f"Missing in submission: {missing_in_submission[:5]}. "
             f"Missing in labels: {missing_in_labels[:5]}."
         )
-
+    print(merged)
     y_true = pd.to_numeric(merged["label"], errors="coerce")
     y_pred = pd.to_numeric(merged[prediction_col], errors="coerce")
     if y_true.isna().any() or y_pred.isna().any():
