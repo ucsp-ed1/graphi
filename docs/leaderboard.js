@@ -220,6 +220,10 @@ async function main(){
     // default: sort by score desc
     state.sortKey = "score";
     state.sortDir = "desc";
+
+    console.log("STATE.ROWS:", state.rows); //new
+    console.log("STATE.FILTERED:", state.filtered); //new
+
     applyFilters();
   }catch(e){
     status.textContent = "Failed to load leaderboard.";
