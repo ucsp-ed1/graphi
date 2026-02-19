@@ -2,8 +2,9 @@ name: Process Submission
 
 on:
   pull_request_target:
-
-
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'submissions/**'
 
 permissions:
   contents: write
