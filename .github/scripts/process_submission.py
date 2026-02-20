@@ -12,6 +12,14 @@ from leaderboard.update_leaderboard import update_leaderboard_csv
 SUBMISSION_DIR = os.path.join(project_root, "submissions")
 
 def read_latest_submission():
+    # Try to get files from the git diff provided by the workflow
+    changed_files_str = os.getenv("CHANGED_FILES", "")
+    if changed_files_str:
+        # Split by newline/space and get the first .enc file
+        files = [f.strip() for f in changed_files_str.split() if f.endswith(".enc")]
+        if files:
+            return os.path.abspath(files[0])
+            
     files = [f for f in os.listdir(SUBMISSION_DIR) if f.endswith(".enc")]
     if not files:
         raise NoEncryptedFileError("No encrypted submission files found in 'submissions' directory.")
@@ -38,7 +46,7 @@ def process_submission():
         encrypted_file = read_latest_submission()
         decrypted_file = decrypt_submission_file(encrypted_file)
         # now the data is saved to a decrypted file ending with ".csv"
-        # the leaderboard should be set up to automatically pick up this file and use the logic in calcuate_scores.py
+        # the leaderboard should be set up to automatically pick up this file and use the logic in calculate_scores.py
         # to show the new entries (files ending with .csv) on the leaderboard
         update_leaderboard_csv()
     except NoEncryptedFileError as e:
